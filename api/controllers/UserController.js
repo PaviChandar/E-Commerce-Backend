@@ -3,9 +3,9 @@ import User from "../models/User.js"
 class UserController {
     updateUser = async(req, res, next) => {
         try {
-            const updatedUser = await Hotel.findByIdAndUpdate(req.params.id, {$set: req.body},
-                 { new: true })
-            res.status(200).json(updatedUser)
+            const updatedUser = await User.findByIdAndUpdate(req.params.id, {$set: req.body} )
+            await updatedUser.save()
+            res.status(200).json("User updated successfully")
         } catch(err) {
             res.status(500).json(err)
         }

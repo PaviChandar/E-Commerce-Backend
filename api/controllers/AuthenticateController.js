@@ -36,7 +36,11 @@ class AuthenticateController {
                 .cookie("access_token", token, {
                     httpOnly: true
                 })
-                .status(200).json({ details: { ...otherDetails }, isAdmin, token })
+                .status(200).json(
+                    { details: { ...otherDetails }
+                    //  ,isAdmin
+                    // , token 
+                })
         } catch (err) {
             next(err)
         }
