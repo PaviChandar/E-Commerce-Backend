@@ -1,40 +1,40 @@
 import User from "../models/User.js"
 
 class UserController {
-    updateUser = async(req, res, next) => {
+    updateUser = async (req, res, next) => {
         try {
-            const updatedUser = await User.findByIdAndUpdate(req.params.id, {$set: req.body} )
+            const updatedUser = await User.findByIdAndUpdate(req.params.id, { $set: req.body })
             await updatedUser.save()
             res.status(200).json("User updated successfully")
-        } catch(err) {
+        } catch (err) {
             res.status(500).json(err)
         }
     }
-    
-     deleteUser = async(req, res, next) => {
+
+    deleteUser = async (req, res, next) => {
         try {
             await User.findByIdAndDelete(req.params.id);
             res.status(200).json("User has been deleted.")
-        } catch(err) {
+        } catch (err) {
             res.status(500).json(err)
         }
     }
-    
-     getUser = async(req, res, next) => {
+
+    getUser = async (req, res, next) => {
         try {
-            const user= await User.findById(req.params.id);
+            const user = await User.findById(req.params.id);
             res.status(200).json(user)
-        } catch(err) {
+        } catch (err) {
             res.status(500).json(err)
         }
     }
-    
-    getUsers = async(req, res, next) => {
-    
+
+    getUsers = async (req, res, next) => {
+
         try {
             const users = await User.find();
             res.status(200).json(users)
-        } catch(err) {
+        } catch (err) {
             next(err)
         }
     }

@@ -37,10 +37,9 @@ class AuthenticateController {
                     httpOnly: true
                 })
                 .status(200).json(
-                    { details: { ...otherDetails }
-                    //  ,isAdmin
-                    // , token 
-                })
+                    {
+                        details: { ...otherDetails }, isAdmin, token
+                    })
         } catch (err) {
             next(err)
         }

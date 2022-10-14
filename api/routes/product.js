@@ -1,17 +1,18 @@
 import express from "express"
 import ProductController from "../controllers/ProductController.js";
+import { verifyAdmin } from "../utils/VerifyToken.js";
 
 const router = express.Router();
 const product = new ProductController()
 
-router.post("/", product.createProduct);
+router.post("/", verifyAdmin, product.createProduct);
 
-router.put("/:id", product.updateProduct)
+router.put("/:id", verifyAdmin, product.updateProduct)
 
-router.delete("/:id", product.deleteProduct)
+router.delete("/:id", verifyAdmin, product.deleteProduct)
 
-router.get("/find/:id", product.getProduct)
+router.get("/find/:id", verifyAdmin, product.getProduct)
 
-router.get("/", product.getProducts)
+router.get("/", verifyAdmin, product.getProducts)
 
 export default router
