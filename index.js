@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import mongoose from "mongoose";
 import authenticateRoute from "./api/routes/authenticate.js"
 import usersRoute from "./api/routes/user.js"
+import cartRoute from "./api/routes/cart.js"
 import productsRoute from "./api/routes/product.js"
 import cookieParser from "cookie-parser";
 import cors from 'cors'
@@ -30,6 +31,7 @@ app.use(cors())
 app.use("/api/user", usersRoute);
 app.use("/api/product", productsRoute);
 app.use("/api/authenticate", authenticateRoute)
+app.use("/api/cart", cartRoute)
 
 app.use((err, req, res, next) => {
     const errorStatus = err.status || 500;

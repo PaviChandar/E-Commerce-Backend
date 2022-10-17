@@ -1,9 +1,9 @@
 import Product from "../models/Product.js"
 
-class ProductController{
+class ProductController {
     createProduct = async (req, res, next) => {
         const newProduct = new Product(req.body)
-    
+
         try {
             const savedProduct = await newProduct.save()
             res.status(200).json(savedProduct)
@@ -11,8 +11,8 @@ class ProductController{
             next(err)
         }
     }
-    
-     updateProduct = async (req, res, next) => {
+
+    updateProduct = async (req, res, next) => {
         try {
             const updatedProduct = await Product.findByIdAndUpdate(req.params.id, { $set: req.body })
             res.status(200).json(updatedProduct)
@@ -20,7 +20,8 @@ class ProductController{
             res.status(500).json(err)
         }
     }
-     deleteProduct = async (req, res, next) => {
+
+    deleteProduct = async (req, res, next) => {
         try {
             await Product.findByIdAndDelete(req.params.id);
             res.status(200).json("Product has been deleted.")
@@ -28,10 +29,11 @@ class ProductController{
             res.status(500).json(err)
         }
     }
+
     getProduct = async (req, res, next) => {
         try {
             const product = await Product.findById(req.params.id);
-            if(!product) {
+            if (!product) {
                 throw "No product found for the corresponding ID"
             }
             res.status(200).json(product)
@@ -39,12 +41,27 @@ class ProductController{
             res.status(500).json(err)
         }
     }
+
     getProducts = async (req, res, next) => {
         try {
             const products = await Product.find()
             res.status(200).json(products)
         } catch (err) {
             next(err)
+        }
+    }
+
+    getProductByCategory = async (req, res, next) => {
+        const categoryType = req.query.category
+
+        try {
+            const type = await Product.find({ category: categoryType })
+            if (!type) {
+                throw "No category available"
+            }
+            res.status(200).json(type)
+        } catch (err) {
+            res.status(500).json(err)
         }
     }
 }

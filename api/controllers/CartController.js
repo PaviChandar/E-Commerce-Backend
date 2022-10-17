@@ -1,14 +1,13 @@
-import Cart from "../models/Cart";
-import Product from "../models/Product"
+import Cart from "../models/Cart.js";
+import Product from "../models/Product.js"
 
 class CartController {
 
     addToCart = async (req, res, next) => {
-        const productId = req.params.productId
-        const userId = req.params.userId
+        const { productId, userId, quantity } = req.body
 
         try {
-            let cart = await Cart.findOne({ productId: productId, userId: userId }, { $increase: { quantity: 1 } })
+            let cart = await Cart({ productId, userId, quantity }).save()
             res.status(200).json(cart)
 
         } catch (err) {
@@ -17,15 +16,17 @@ class CartController {
     }
 
     updateCartQuantity = async (req, res, next) => {
-        const userId = req.params.userId
-        const productId = req.params.productId
+
+        const userId = req.params.id
+        const { productId, quantity } = req.body
         const cart = await Cart.findOne({ productId: productId, userId: userId })
 
         try {
             if (cart.quantity < 1) {
                 throw "Unable to reduce quantity"
             }
-            await Cart.updateOne({ productId: productId, userId: userId }, { $inc: { quantity: -1 } })
+            await Cart.updateOne({ quantity : quantity})
+            res.status(200).json({ message: "Quantity updated!" })
         } catch (err) {
             next(err)
         }
@@ -33,11 +34,11 @@ class CartController {
     }
 
     removeFromCart = async (req, res, next) => {
-        const userId = req.params.userId
-        const productId = req.params.productId
+        //check for cartid
+        let cartId = req.params.id
 
         try {
-            await Product.findByIdandDelete(userId, productId, { $pull: { cart: req.params.id } })
+            await Product.findByIdandDelete({ cartId })
             res.status(200).json("Product has been removed from cart")
         } catch (err) {
             next(err)
@@ -57,7 +58,7 @@ class CartController {
     }
 
     getSingleCartDetail = async (req, res, next) => {
-        const userId = req.params.userId
+        const userId = req.params.id
 
         try {
             const singleUserCart = await Cart.find({ userId: userId }).populate({ path: 'productId' })
