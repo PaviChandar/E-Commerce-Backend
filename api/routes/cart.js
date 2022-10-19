@@ -10,4 +10,6 @@ router.put("/:id", cart.updateCartQuantity)
 
 router.get("/:id", cart.getSingleCartDetail)
 
+router.delete('/:id', cart.removeFromCart)
+
 export default router

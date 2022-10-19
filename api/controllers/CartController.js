@@ -1,5 +1,4 @@
 import Cart from "../models/Cart.js";
-import Product from "../models/Product.js"
 
 class CartController {
 
@@ -34,11 +33,11 @@ class CartController {
     }
 
     removeFromCart = async (req, res, next) => {
-        //check for cartid
         let cartId = req.params.id
 
         try {
-            await Product.findByIdandDelete({ cartId })
+            await Cart.findByIdAndDelete(cartId)
+            
             res.status(200).json("Product has been removed from cart")
         } catch (err) {
             next(err)

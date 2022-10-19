@@ -5,7 +5,7 @@ import authenticateRoute from "./api/routes/authenticate.js"
 import usersRoute from "./api/routes/user.js"
 import cartRoute from "./api/routes/cart.js"
 import productsRoute from "./api/routes/product.js"
-import cookieParser from "cookie-parser";
+// import CookieParser from "cookieparser";
 import cors from 'cors'
 const app = express();
 dotenv.config()
@@ -24,7 +24,7 @@ mongoose.connection.on("disconnected", () => {
     console.log("mongoDB disconnected")
 });
 
-app.use(cookieParser())
+// app.use(CookieParser())
 app.use(express.json())
 app.use(cors())
 
